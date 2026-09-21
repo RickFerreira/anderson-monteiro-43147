@@ -1,7 +1,8 @@
 # Anderson Monteiro 43147 — Landing page
 
-Site institucional de campanha, uma única página com navegação por âncoras e rolagem suave.
-HTML, CSS e JavaScript puros, sem build e sem dependências — basta subir os arquivos.
+Site institucional de campanha, one page com navegação por âncoras e rolagem suave.
+HTML, CSS e JavaScript puros, sem build e sem dependências.
+Ideia inicial feita com vibe coding, utilizando a metodologia Spec-Driven Development (SDD) e depois realizando ajustes manuais.
 
 ## Estrutura
 
@@ -21,40 +22,17 @@ assets/
   foto-duotone.jpg            arte duotone da faixa de chamada
 ```
 
-## Como publicar
-
-É um site estático. Qualquer hospedagem serve:
-
-- **GitHub Pages**: suba os arquivos na raiz do repositório e ative Pages na branch `main`.
-- **Netlify / Vercel**: arraste a pasta; não há comando de build.
-- **Hospedagem tradicional**: envie tudo por FTP para a pasta pública.
-
-Para testar localmente, abra `index.html` no navegador ou rode `npx serve` na pasta.
-
-## Onde editar
-
-| O que mudar | Onde |
-| --- | --- |
-| Textos das seções | `index.html` |
-| Lista de leis | array `LEIS` no topo do `script.js` |
-| Cores e tipografia | bloco `:root` no início do `style.css` |
-| Links de redes sociais | rodapé do `index.html` |
-| Logos e fotos | pasta `assets/` (mantenha os nomes dos arquivos) |
-
 ## Identidade visual
 
-Cores retiradas dos arquivos oficiais da campanha:
-
-| Token | Hex | Uso |
-| --- | --- | --- |
-| `--deep` | `#00604F` | verde profundo da marca |
+| Token      | Hex       | Uso                     |
+| ---------- | --------- | ----------------------- |
+| `--deep`   | `#00604F` | verde profundo da marca |
 | `--deep-2` | `#004A3E` | fundos escuros de apoio |
-| `--lime` | `#BFFE1B` | destaque neon |
-| `--green` | `#17C55C` | verde vibrante do hero |
-| `--leaf` | `#00AF48` | verde médio |
+| `--lime`   | `#BFFE1B` | destaque neon           |
+| `--green`  | `#17C55C` | verde vibrante do hero  |
+| `--leaf`   | `#00AF48` | verde médio             |
 
 Tipografia via Google Fonts: **Anton** nos títulos em caixa alta e **Poppins** no restante.
-A assinatura manuscrita "Monteiro" faz parte do arquivo do logo, não é uma fonte.
 
 ## Acessibilidade e performance
 
