@@ -1,0 +1,446 @@
+/* =========================================================
+   Anderson Monteiro 43147 — Deputado Estadual
+   Landing page one-page · mobile first
+   Paleta e tipografia extraídas da identidade visual oficial
+   Produzido por Richard Salviano — https://instagram.com/richard.salviano
+   ========================================================= */
+
+/* ---------- 1. Tokens ---------- */
+:root{
+  /* cores oficiais da identidade */
+  --deep:#00604F;        /* verde profundo da marca */
+  --deep-2:#004A3E;      /* variação escura p/ contraste */
+  --lime:#BFFE1B;        /* lime neon */
+  --green:#17C55C;       /* verde vibrante */
+  --leaf:#00AF48;        /* verde médio */
+  --paper:#FFFFFF;
+  --paper-2:#F1F8F2;
+  --ink:#06382E;         /* texto sobre fundo claro */
+  --rule:rgba(0,96,79,.16);
+
+  --head-h:62px;
+  --pad:clamp(18px,5vw,40px);
+  --maxw:1120px;
+
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+
+/* a identidade é sempre a mesma nos dois temas do navegador */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#FFFFFF; --paper-2:#F1F8F2; --ink:#06382E; --rule:rgba(0,96,79,.16);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#FFFFFF; --paper-2:#F1F8F2; --ink:#06382E; --rule:rgba(0,96,79,.16);
+}
+
+*,*::before,*::after{box-sizing:inherit}
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:calc(var(--head-h) + env(safe-area-inset-top,0px) + 8px);
+  -webkit-text-size-adjust:100%;
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Poppins","Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:16px;
+  line-height:1.62;
+  overflow-x:hidden;
+}
+
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px;border-radius:4px}
+
+.wrap{
+  width:100%;max-width:var(--maxw);margin:0 auto;
+  padding-left:var(--pad);padding-right:var(--pad);
+}
+
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:99;
+  background:var(--lime);color:var(--deep);font-weight:700;padding:12px 18px;
+}
+.skip:focus{left:8px;top:8px}
+
+
+/* ---------- 2. Cabeçalho ---------- */
+.hdr{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  padding-top:env(safe-area-inset-top,0px);
+  background:linear-gradient(rgba(0,58,46,.55),rgba(0,58,46,0));
+  transition:background .25s ease, box-shadow .25s ease;
+}
+.hdr.fixo{background:var(--deep);box-shadow:0 2px 0 rgba(191,254,27,.6)}
+
+.hdr-in{height:var(--head-h);display:flex;align-items:center;gap:12px}
+
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff}
+.brand-mark{
+  width:36px;height:36px;flex:none;border-radius:4px;background:var(--lime);
+  display:grid;place-content:center;
+}
+.brand-mark img{width:22px;height:auto}
+.brand-txt b{display:block;font-weight:800;font-size:16.5px;letter-spacing:-.02em;line-height:1.05}
+.brand-txt s{
+  display:block;text-decoration:none;font-size:10px;letter-spacing:.14em;
+  font-weight:600;opacity:.85;text-transform:uppercase;
+}
+.brand-num{
+  margin-left:2px;background:var(--lime);color:var(--deep);
+  font-weight:800;font-size:13px;letter-spacing:-.02em;padding:3px 7px;border-radius:3px;
+}
+
+.nav{margin-left:auto;display:none}
+.nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+.nav a{
+  display:block;text-decoration:none;color:#fff;font-weight:600;font-size:13.5px;
+  padding:9px 13px;border-radius:999px;transition:background .18s,color .18s;
+}
+.nav a:hover{background:rgba(255,255,255,.16)}
+.nav a.ativo{background:var(--lime);color:var(--deep)}
+
+.burger{
+  margin-left:auto;width:44px;height:38px;display:grid;place-content:center;gap:5px;
+  background:var(--lime);border:0;border-radius:6px;cursor:pointer;
+}
+.burger span{
+  display:block;width:21px;height:3px;background:var(--deep);border-radius:2px;
+  transition:transform .25s ease,opacity .2s ease;
+}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+.drawer{
+  position:fixed;inset:0;z-index:55;background:var(--deep);
+  padding:calc(var(--head-h) + env(safe-area-inset-top,0px) + 24px) var(--pad)
+          calc(32px + env(safe-area-inset-bottom,0px));
+  display:flex;flex-direction:column;justify-content:center;
+  transform:translateY(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  visibility:hidden;
+}
+.drawer.aberto{transform:translateY(0);visibility:visible}
+.drawer ul{list-style:none;margin:0;padding:0}
+.drawer li{border-bottom:1px solid rgba(191,254,27,.28)}
+.drawer a{
+  display:flex;align-items:baseline;gap:14px;text-decoration:none;color:#fff;
+  font-family:"Anton",Impact,sans-serif;font-size:clamp(28px,9vw,40px);
+  text-transform:uppercase;padding:14px 0;
+}
+.drawer a em{
+  font-family:"Poppins",sans-serif;font-style:normal;font-size:12px;font-weight:700;
+  color:var(--lime);letter-spacing:.1em;
+}
+.drawer-foot{margin-top:28px;color:var(--lime);font-weight:700;font-size:13px;letter-spacing:.08em}
+
+
+/* ---------- 3. Hero ---------- */
+.hero{
+  position:relative;background:var(--green);overflow:hidden;
+  padding-top:calc(var(--head-h) + env(safe-area-inset-top,0px));
+}
+.hero-mosaico{
+  position:absolute;inset:0;z-index:0;opacity:.6;
+  background-image:url('assets/mosaico-horizontal.png');
+  background-repeat:repeat;
+  background-size:auto 150px;
+  background-position:center top;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(178deg,
+    rgba(0,96,79,.42) 0%,
+    rgba(23,197,92,.04) 26%,
+    rgba(23,197,92,.9) 56%,
+    var(--green) 66%);
+}
+
+.hero-in{position:relative;z-index:3;display:flex;flex-direction:column-reverse}
+
+.hero-foto{
+  width:min(100%,420px);margin:0 auto;
+  -webkit-mask-image:linear-gradient(to bottom,#000 76%,rgba(0,0,0,0) 99%);
+          mask-image:linear-gradient(to bottom,#000 76%,rgba(0,0,0,0) 99%);
+}
+.hero-body{padding:0 0 clamp(30px,7vw,54px);margin-top:-6vw}
+.hero-logo{width:min(100%,360px)}
+
+.slab{margin:18px 0 0;display:inline-block;max-width:100%}
+.slab span{
+  display:block;font-family:"Anton",Impact,sans-serif;text-transform:uppercase;
+  font-size:clamp(28px,8.6vw,54px);line-height:.96;padding:.1em .22em .14em;
+}
+.slab .s1{background:var(--lime);color:var(--deep)}
+.slab .s2{background:var(--deep);color:var(--lime)}
+.slab .s2 b{color:#fff;font-weight:inherit}
+
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{
+  display:inline-flex;align-items:center;text-decoration:none;
+  font-weight:700;font-size:14px;padding:13px 20px;border-radius:999px;
+  transition:transform .18s ease, background .18s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-lime{background:var(--lime);color:var(--deep)}
+.btn-deep{background:var(--deep);color:#fff}
+
+
+/* ---------- 4. Estrutura de seções ---------- */
+section{position:relative}
+.sec{padding:clamp(46px,9vw,84px) 0}
+.sec-paper{background:var(--paper)}
+.sec-deep{background:var(--deep);color:#fff}
+
+.tab{display:flex;align-items:stretch;flex-wrap:wrap;gap:6px;margin-bottom:clamp(22px,4vw,34px)}
+.tab-ico{
+  width:52px;flex:none;display:grid;place-content:center;
+  background:var(--paper);border-radius:10px 10px 10px 0;
+  box-shadow:0 0 0 2px rgba(0,96,79,.08) inset;
+}
+.tab-ico svg{width:26px;height:26px;display:block}
+.tab h2{
+  margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:clamp(21px,6.2vw,38px);line-height:1;
+}
+.tab h2 span{padding:.24em .38em .3em;border-radius:4px;display:inline-block}
+.tab .k1{background:var(--lime);color:var(--deep)}
+.tab .k2{background:var(--deep);color:#fff}
+.sec-deep .tab .k2{background:var(--paper);color:var(--deep)}
+
+
+/* ---------- 5. Sobre ---------- */
+.sobre-grid{display:grid;gap:clamp(22px,5vw,40px)}
+.sobre p{margin:0 0 1.05em;max-width:62ch;font-size:clamp(15px,3.7vw,17px)}
+.sobre p:last-child{margin-bottom:0}
+.sobre strong{color:var(--deep);font-weight:700}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.chips li{
+  background:var(--paper-2);border:1px solid var(--rule);color:var(--deep);
+  font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;
+}
+
+.retrato{position:relative;margin:0;border-radius:14px;overflow:hidden;background:var(--green)}
+.retrato img{width:100%}
+.retrato figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 16px 14px;color:#fff;
+  font-size:12.5px;font-weight:600;
+  background:linear-gradient(transparent,rgba(0,74,62,.92));
+}
+
+/* ---------- 13. Contador da eleição ---------- */
+.contador{
+  margin:clamp(0px,6vw,0px) auto 0;
+  display:inline-flex;align-items:center;gap:14px;
+  width:fit-content;max-width:100%;
+  background:var(--deep);color:#fff;border-radius:14px;
+  padding:14px 20px;
+}
+
+.contador-num {
+  font-family: "Anton", Impact, sans-serif;
+  line-height: .9;
+  font-size: clamp(58px, 11vw, 84px);
+  color: var(--lime);
+  min-width: 1.6ch;
+  text-align: center;
+}
+
+.contador-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+
+.contador-numero {
+  display: inline-block;
+  width: max-content;
+  background: var(--lime);
+  color: var(--deep);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -.02em;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+@media (min-width: 860px) {
+  .contador {
+    padding: 24px 40px;
+    gap: 24px;
+  }
+}
+
+/* ---------- 6. Recursos ---------- */
+.areas{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.areas li{display:flex;background:var(--paper);border-radius:10px;overflow:hidden}
+.areas-ico{flex:none;width:64px;display:grid;place-content:center;background:var(--leaf)}
+.areas-ico svg{width:30px;height:30px}
+.areas-txt{padding:14px 16px}
+.areas-txt h3{
+  margin:0 0 3px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--deep);font-weight:800;
+}
+.areas-txt p{margin:0;font-size:14px;line-height:1.5;color:#1d4a3e}
+.areas-nota{margin:22px 0 0;color:var(--lime);font-weight:700;font-size:14px}
+
+
+/* ---------- 7. Leis ---------- */
+.leis{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.leis li{
+  padding:16px 0;border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;
+}
+.leis li:first-child{border-top:1px solid var(--rule)}
+.leis .tick{width:20px;height:20px;margin-top:3px}
+.leis b{display:block;font-weight:800;color:var(--deep);font-size:15px}
+.leis span{display:block;font-size:14.5px;line-height:1.5;color:#1d4a3e}
+
+
+/* ---------- 8. Faixa de chamada ---------- */
+.faixa{
+  position:relative;background:var(--deep-2);overflow:hidden;color:#fff;isolation:isolate;
+  min-height:clamp(360px,50vw,470px);display:flex;align-items:center;
+}
+.faixa-img{
+  position:absolute;top:0;right:0;bottom:0;width:64%;max-width:430px;z-index:0;
+  -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0%,#000 46%);
+          mask-image:linear-gradient(to right,rgba(0,0,0,0) 0%,#000 46%);
+}
+.faixa-img img{width:100%;height:100%;object-fit:cover;object-position:52% 8%}
+.faixa::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(176deg,rgba(0,74,62,.72) 4%,rgba(0,74,62,.18) 46%,rgba(0,74,62,.88) 100%);
+}
+.faixa .wrap{position:relative;z-index:2;flex:1}
+.faixa-txt{padding:clamp(60px,13vw,96px) 0;max-width:19ch}
+.faixa-titulo{
+  margin:0;font-family:"Anton",Impact,sans-serif;text-transform:uppercase;
+  line-height:.98;font-size:clamp(26px,8vw,50px);
+}
+.faixa-titulo em{
+  font-style:normal;background:var(--lime);color:var(--deep);
+  padding:.04em .16em .1em;border-radius:4px;display:inline-block;
+}
+.faixa-sub{margin:16px 0 0;max-width:44ch;font-size:15px;color:#e4f7e9}
+
+
+/* ---------- 9. Fita de mosaico ---------- */
+.fita{
+  height:clamp(46px,9vw,74px);
+  background:var(--deep) url('assets/mosaico-faixa.png') repeat-x center/auto 100%;
+}
+
+
+/* ---------- 10. Rodapé ---------- */
+.rodape{background:var(--deep);color:#fff;padding:clamp(44px,8vw,72px) 0 0}
+.rodape-frase{
+  margin:0 0 26px;font-family:"Anton",Impact,sans-serif;text-transform:uppercase;
+  line-height:1;font-size:clamp(28px,9.6vw,62px);
+}
+.rodape-frase i{font-style:normal;color:var(--lime)}
+
+.social{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 30px;padding:0;list-style:none}
+.social a{
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  background:rgba(255,255,255,.09);border:1px solid rgba(191,254,27,.4);
+  padding:11px 16px;border-radius:999px;font-weight:600;font-size:13.5px;
+  transition:background .18s ease,color .18s ease;
+}
+.social a:hover{background:var(--lime);color:var(--deep)}
+.social svg{width:18px;height:18px;flex:none}
+
+.rodape-marca{border-top:1px solid rgba(255,255,255,.18);padding-top:26px}
+.rodape-marca img{width:min(100%,300px)}
+.rodape-legal{
+  margin:20px 0 0;font-size:11px;line-height:1.7;letter-spacing:.02em;
+  color:rgba(255,255,255,.66);max-width:60ch;
+}
+
+.rodape-barra{
+  margin-top:26px;border-top:1px solid rgba(255,255,255,.14);
+  padding:14px 0 calc(18px + env(safe-area-inset-bottom,0px));
+  display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:space-between;
+  font-size:10.5px;color:rgba(255,255,255,.52);letter-spacing:.03em;
+}
+
+
+/* ---------- 11. Entrada do hero ---------- */
+.anim .hero-foto,
+.anim .hero-logo,
+.anim .slab,
+.anim .hero-cta{
+  opacity:0;transform:translateY(14px);
+  animation:sobe .62s cubic-bezier(.22,.7,.3,1) forwards;
+}
+.anim .hero-foto{animation-delay:.05s}
+.anim .hero-logo{animation-delay:.22s}
+.anim .slab{animation-delay:.34s}
+.anim .hero-cta{animation-delay:.46s}
+@keyframes sobe{to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion: reduce){
+  .anim .hero-foto,.anim .hero-logo,.anim .slab,.anim .hero-cta{
+    opacity:1;transform:none;animation:none;
+  }
+}
+
+
+/* ---------- 12. Telas maiores ---------- */
+@media (min-width:860px){
+  :root{--head-h:76px}
+
+  .burger{display:none}
+  .nav{display:block}
+
+  .hero-in{display:grid;grid-template-columns:1.05fr .95fr;align-items:end;gap:clamp(20px,4vw,48px)}
+  .hero-body{padding:clamp(78px,8vw,116px) 0 clamp(64px,7vw,96px);margin-top:0}
+  .hero-logo{width:min(100%,470px)}
+  .hero-foto{
+    width:100%;max-width:470px;margin:0 0 0 auto;
+    -webkit-mask-image:linear-gradient(to bottom,#000 86%,rgba(0,0,0,0) 100%);
+            mask-image:linear-gradient(to bottom,#000 86%,rgba(0,0,0,0) 100%);
+  }
+  .hero-mosaico{background-size:auto 210px}
+  .hero::after{
+    background:linear-gradient(98deg,var(--green) 26%,rgba(23,197,92,.6) 54%,rgba(0,96,79,.28) 100%);
+  }
+
+  .sobre-grid{grid-template-columns:1.25fr .75fr;align-items:start}
+
+  .areas{grid-template-columns:1fr 1fr}
+
+  .leis{grid-template-columns:1fr 1fr;column-gap:36px}
+  .leis li:nth-child(2){border-top:1px solid var(--rule)}
+
+  .faixa-txt{padding:clamp(80px,9vw,120px) 0;max-width:30ch}
+  .faixa-titulo{max-width:20ch}
+  .faixa-img{width:48%;max-width:560px}
+  .faixa-img img{object-position:50% 6%}
+  .faixa::after{
+    background:linear-gradient(94deg,rgba(0,74,62,.84) 22%,rgba(0,74,62,.3) 58%,rgba(0,74,62,.06) 100%);
+  }
+
+  .rodape-in{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
+}
+
+@media (min-width:1180px){
+  .hero-foto{max-width:520px}
+}
